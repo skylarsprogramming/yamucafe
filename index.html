@@ -78,7 +78,7 @@
       .mobile-menu {
         display: none;
         overflow: hidden;
-        border-top: 1px solid rgba(58, 42, 31, 0.1);
+        border-top: 1px solid rgba(245, 240, 240, 0.005);
         background: var(--offwhite);
       }
       .mobile-menu.open { display: block; }
@@ -113,17 +113,20 @@
       @media (min-width: 768px) { .hero-inner { flex-direction: row; gap: 4rem; } }
       .hero-text { flex: 1; text-align: center; }
       @media (min-width: 768px) { .hero-text { text-align: left; } }
-      .hero h1 { font-size: 1.875rem; font-weight: 700; margin: 0; line-height: 1.2; }
+      .hero h1 { font-size: 1.875rem; font-weight: 700; margin: 0; line-height: 1.2; color: #fff; }
       @media (min-width: 640px) { .hero h1 { font-size: 2.25rem; } }
       @media (min-width: 768px) { .hero h1 { font-size: 3rem; } }
       @media (min-width: 1024px) { .hero h1 { font-size: 2.75rem; } }
-      .hero p { margin-top: 1rem; max-width: 32rem; font-size: 1.125rem; color: rgba(58, 42, 31, 0.85); }
+      .hero p { margin-top: 1rem; max-width: 32rem; font-size: 1.125rem; color: #fff; }
       @media (min-width: 768px) { .hero p { margin-top: 1.5rem; } }
       .hero-btns { margin-top: 2rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
       @media (min-width: 768px) { .hero-btns { justify-content: flex-start; margin-top: 2.5rem; } }
       .btn-primary { display: inline-flex; align-items: center; padding: 0.75rem 1.5rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 600; color: #fff; background: var(--gold); box-shadow: var(--shadow-soft); text-decoration: none; transition: background 0.2s, box-shadow 0.2s; }
       .btn-primary:hover { background: var(--gold-dark); box-shadow: var(--shadow-lift); }
       .btn-secondary { display: inline-flex; align-items: center; padding: 0.75rem 1.5rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--espresso); background: transparent; border: 2px solid rgba(58, 42, 31, 0.3); text-decoration: none; transition: border-color 0.2s, background 0.2s, color 0.2s; }
+      /* white text when inside hero */
+      .hero .btn-secondary { color: #fff; border-color: rgba(255,255,255,0.3); }
+      .hero .btn-secondary:hover { border-color: #fff; background: rgba(255,255,255,0.1); color: #fff; }
       .btn-secondary:hover { border-color: var(--gold); background: rgba(182, 138, 58, 0.05); color: var(--gold); }
       .hero-img-wrap { flex: 1; display: flex; justify-content: center; position: relative; }
       .hero-img-wrap::before { content: ''; position: absolute; inset: -1rem; background: rgba(182, 138, 58, 0.1); border-radius: 1.5rem; filter: blur(24px); z-index: 0; }
