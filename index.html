@@ -53,7 +53,7 @@
       .nav-links { display: none; }
       @media (min-width: 768px) {
         .nav-links { display: flex; align-items: center; gap: 0.25rem; list-style: none; margin: 0; padding: 0; }
-        .nav-links a { padding: 0.5rem 1rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 500; color: var(--espresso); text-decoration: none; transition: background 0.2s, color 0.2s; }
+        .nav-links a { padding: 0.5rem 1rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 500; color: #fff; text-decoration: none; transition: background 0.2s, color 0.2s; }
         .nav-links a:hover { background: rgba(182, 138, 58, 0.1); color: var(--gold); }
       }
       .nav-toggle {
@@ -70,8 +70,8 @@
         padding: 0;
       }
       @media (min-width: 768px) { .nav-toggle { display: none; } }
-      .nav-toggle span { display: block; width: 1.25rem; height: 2px; background: var(--espresso); border-radius: 2px; transition: transform 0.2s, opacity 0.2s, background 0.3s; }
-      .navbar:not(.scrolled) .nav-toggle span { background: #fff; }
+      .nav-toggle span { display: block; width: 1.25rem; height: 2px; background: #fff; border-radius: 2px; transition: transform 0.2s, opacity 0.2s, background 0.3s; }
+      /* keep toggler bars white regardless of scroll state */
       .nav-toggle.open span:nth-child(1) { transform: translateY(4px) rotate(45deg); }
       .nav-toggle.open span:nth-child(2) { opacity: 0; }
       .nav-toggle.open span:nth-child(3) { transform: translateY(-4px) rotate(-45deg); }
@@ -351,24 +351,7 @@
                 </div>
               </div>
             </button>
-            <button type="button" class="gallery-item focus-ring" data-lightbox="5" aria-label="Bild öffnen: Logo">
-              <img loading="lazy" src="images/logo.jpg" alt="Café Yamu Logo" />
-              <div class="overlay">
-                <div>
-                  <div class="caption">Unser Logo</div>
-                  <div class="caption-sub">Café Yamu</div>
-                </div>
-              </div>
-            </button>
-            <button type="button" class="gallery-item focus-ring" data-lightbox="6" aria-label="Bild öffnen: To-Go Becher">
-              <img loading="lazy" src="images/cup.png" alt="Café Yamu To-Go Becher" />
-              <div class="overlay">
-                <div>
-                  <div class="caption">To-Go Becher</div>
-                  <div class="caption-sub">Für unterwegs</div>
-                </div>
-              </div>
-            </button>
+
           </div>
         </div>
       </section>
