@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Café Yamu — coffee • eatery • vibes | Köln-Nippes</title>
+    <meta name="description" content="Ausgiebig frühstücken in Köln-Nippes: großzügige Frühstücksplatten, Eierspezialitäten, Bowls und Kaffeespezialitäten. Christinastraße 64, 50733 Köln." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --gold: #b68a3a;
+        --gold-dark: #9a732f;
+        --espresso: #3a2a1f;
+        --offwhite: #f5f2ed;
+        --cream: #faf8f5;
+        --shadow-soft: 0 4px 20px rgba(58, 42, 31, 0.08);
+        --shadow-lift: 0 12px 40px rgba(58, 42, 31, 0.12);
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: 'Inter', system-ui, sans-serif;
+        background: var(--offwhite);
+        color: var(--espresso);
+        -webkit-font-smoothing: antialiased;
+      }
+      .focus-ring:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--offwhite), 0 0 0 4px var(--gold);
+      }
+      .container { max-width: 72rem; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
+      @media (min-width: 768px) { .container { padding-left: 1.5rem; padding-right: 1.5rem; } }
+
+      /* Navbar */
+      .navbar {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 50;
+        transition: background 0.3s, box-shadow 0.3s;
+      }
+      .navbar.scrolled { background: rgba(245, 242, 237, 0.95); box-shadow: var(--shadow-soft); backdrop-filter: blur(8px); }
+      /* When at top: sit on hero image with readable text */
+      .navbar:not(.scrolled) { background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 70%); }
+      .navbar:not(.scrolled) .nav-links a { color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
+      .navbar:not(.scrolled) .nav-links a:hover { color: var(--gold); background: rgba(255,255,255,0.15); }
+      .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 0; }
+      .nav-logo { height: 2.5rem; width: auto; transition: filter 0.3s; }
+      .navbar:not(.scrolled) .nav-logo { filter: brightness(0) invert(1); }
+      @media (min-width: 768px) { .nav-logo { height: 3rem; } }
+      .nav-links { display: none; }
+      @media (min-width: 768px) {
+        .nav-links { display: flex; align-items: center; gap: 0.25rem; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { padding: 0.5rem 1rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 500; color: var(--espresso); text-decoration: none; transition: background 0.2s, color 0.2s; }
+        .nav-links a:hover { background: rgba(182, 138, 58, 0.1); color: var(--gold); }
+      }
+      .nav-toggle {
+        display: flex;
+        width: 2.5rem; height: 2.5rem;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        border-radius: 1rem;
+        padding: 0;
+      }
+      @media (min-width: 768px) { .nav-toggle { display: none; } }
+      .nav-toggle span { display: block; width: 1.25rem; height: 2px; background: var(--espresso); border-radius: 2px; transition: transform 0.2s, opacity 0.2s, background 0.3s; }
+      .navbar:not(.scrolled) .nav-toggle span { background: #fff; }
+      .nav-toggle.open span:nth-child(1) { transform: translateY(4px) rotate(45deg); }
+      .nav-toggle.open span:nth-child(2) { opacity: 0; }
+      .nav-toggle.open span:nth-child(3) { transform: translateY(-4px) rotate(-45deg); }
+      .mobile-menu {
+        display: none;
+        overflow: hidden;
+        border-top: 1px solid rgba(58, 42, 31, 0.1);
+        background: var(--offwhite);
+      }
+      .mobile-menu.open { display: block; }
+      .mobile-menu ul { list-style: none; margin: 0; padding: 1rem; display: flex; flex-direction: column; gap: 0.25rem; }
+      .mobile-menu a { display: block; padding: 0.75rem 1rem; border-radius: 1rem; color: var(--espresso); text-decoration: none; }
+      .mobile-menu a:hover { background: rgba(182, 138, 58, 0.1); }
+      @media (min-width: 768px) { .mobile-menu { display: none !important; } }
+
+      /* Hero */
+      .hero {
+        position: relative;
+        min-height: 100vh; /* full viewport – background behind navbar */
+        padding-top: 5rem; /* keep space for fixed navbar */
+        padding-bottom: 4rem;
+        background-image: url('images/hero-bg.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      /* subtle dark overlay for hero text readability */
+      .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.35);
+        z-index: 5;
+        pointer-events: none;
+      }
+      /* ensure hero content sits above the overlay */
+      .hero-inner { position: relative; z-index: 10; }
+      @media (min-width: 768px) { .hero { min-height: 85vh; padding-top: 6rem; display: flex; align-items: center; } }
+  .hero-inner { display: flex; flex-direction: column; align-items: center; gap: 3rem; }
+      @media (min-width: 768px) { .hero-inner { flex-direction: row; gap: 4rem; } }
+      .hero-text { flex: 1; text-align: center; }
+      @media (min-width: 768px) { .hero-text { text-align: left; } }
+      .hero h1 { font-size: 1.875rem; font-weight: 700; margin: 0; line-height: 1.2; }
+      @media (min-width: 640px) { .hero h1 { font-size: 2.25rem; } }
+      @media (min-width: 768px) { .hero h1 { font-size: 3rem; } }
+      @media (min-width: 1024px) { .hero h1 { font-size: 2.75rem; } }
+      .hero p { margin-top: 1rem; max-width: 32rem; font-size: 1.125rem; color: rgba(58, 42, 31, 0.85); }
+      @media (min-width: 768px) { .hero p { margin-top: 1.5rem; } }
+      .hero-btns { margin-top: 2rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+      @media (min-width: 768px) { .hero-btns { justify-content: flex-start; margin-top: 2.5rem; } }
+      .btn-primary { display: inline-flex; align-items: center; padding: 0.75rem 1.5rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 600; color: #fff; background: var(--gold); box-shadow: var(--shadow-soft); text-decoration: none; transition: background 0.2s, box-shadow 0.2s; }
+      .btn-primary:hover { background: var(--gold-dark); box-shadow: var(--shadow-lift); }
+      .btn-secondary { display: inline-flex; align-items: center; padding: 0.75rem 1.5rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--espresso); background: transparent; border: 2px solid rgba(58, 42, 31, 0.3); text-decoration: none; transition: border-color 0.2s, background 0.2s, color 0.2s; }
+      .btn-secondary:hover { border-color: var(--gold); background: rgba(182, 138, 58, 0.05); color: var(--gold); }
+      .hero-img-wrap { flex: 1; display: flex; justify-content: center; position: relative; }
+      .hero-img-wrap::before { content: ''; position: absolute; inset: -1rem; background: rgba(182, 138, 58, 0.1); border-radius: 1.5rem; filter: blur(24px); z-index: 0; }
+      .hero-img { position: relative; z-index: 1; max-width: 100%; height: auto; border-radius: 1rem; object-fit: contain; filter: drop-shadow(var(--shadow-lift)); }
+      @media (max-width: 767px) { .hero-img { max-width: 280px; } }
+
+      /* Sections common */
+      section { padding: 4rem 0; }
+      @media (min-width: 768px) { section { padding: 6rem 0; } }
+      .section-title { text-align: center; font-size: 1.5rem; font-weight: 700; margin: 0; }
+      @media (min-width: 768px) { .section-title { font-size: 1.875rem; } }
+      .section-sub { text-align: center; margin-top: 0.5rem; max-width: 36rem; margin-left: auto; margin-right: auto; color: rgba(58, 42, 31, 0.8); }
+
+      /* Signature Breakfast */
+      .breakfast { background: #fff; }
+      .cards { margin-top: 3rem; display: grid; gap: 1.5rem; }
+      @media (min-width: 640px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+      @media (min-width: 1024px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+      .card {
+        padding: 1.5rem;
+        border-radius: 1rem;
+        border: 1px solid rgba(58, 42, 31, 0.1);
+        background: var(--offwhite);
+        box-shadow: var(--shadow-soft);
+        transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      }
+      .card:hover { border-color: rgba(182, 138, 58, 0.3); box-shadow: var(--shadow-lift); transform: translateY(-4px); }
+      .card-icon { font-size: 1.875rem; }
+      .card h3 { margin: 0.75rem 0 0; font-size: 1.125rem; font-weight: 600; }
+      .card p { margin: 0.5rem 0 0; font-size: 0.875rem; color: rgba(58, 42, 31, 0.8); }
+
+      /* Gallery */
+      .gallery-sec { background: var(--offwhite); }
+  .gallery-grid { margin-top: 2.5rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  @media (min-width: 480px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 768px) { .gallery-grid { grid-template-columns: repeat(4, 1fr); gap: 1rem; } }
+  .gallery-item { position: relative; aspect-ratio: 4/5; border-radius: 1rem; overflow: hidden; background: rgba(58, 42, 31, 0.05); cursor: pointer; display: block; }
+  @media (min-width: 768px) { .gallery-item { aspect-ratio: 1; } }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s cubic-bezier(.2,.9,.3,1); display: block; }
+  .gallery-item:hover img { transform: scale(1.06); }
+  .gallery-item .overlay { position: absolute; left: 0; right: 0; bottom: 0; padding: 0.75rem 1rem; background: linear-gradient(180deg, rgba(58,42,31,0) 0%, rgba(58,42,31,0.35) 60%, rgba(58,42,31,0.55) 100%); color: var(--offwhite); transform: translateY(12%); opacity: 0; transition: transform 0.28s, opacity 0.28s; display:flex; align-items:center; justify-content:space-between; gap:0.5rem; }
+  .gallery-item:hover .overlay, .gallery-item:focus .overlay { transform: translateY(0); opacity: 1; }
+  .gallery-item .caption { font-size: 0.9rem; font-weight: 600; color: #fff; }
+  .gallery-item .caption-sub { font-size: 0.75rem; color: rgba(255,255,255,0.9); font-weight:500; }
+      .lightbox {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: rgba(58, 42, 31, 0.86);
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+      .lightbox.open { display: flex; }
+      .lightbox-inner { position: relative; max-width: 1100px; width: 100%; display:flex; align-items:center; justify-content:center; }
+      .lightbox img { max-width: 100%; max-height: 85vh; width: auto; height: auto; border-radius: 1rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+      .lightbox-close { position: absolute; top: 1rem; right: 1rem; padding: 0.5rem 1rem; border-radius: 1rem; background: rgba(255,255,255,0.95); color: var(--espresso); border: none; cursor: pointer; font-weight: 500; }
+      .lightbox-close:hover { background: #fff; }
+      .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); border-radius: 999px; width: 44px; height: 44px; display:flex; align-items:center; justify-content:center; border: none; cursor:pointer; }
+      .lightbox-prev { left: -56px; }
+      .lightbox-next { right: -56px; }
+      .lightbox-nav svg { width: 18px; height: 18px; color: var(--espresso); }
+      @media (max-width: 600px) { .lightbox-prev { left: 8px; } .lightbox-next { right: 8px; } }
+
+      /* Info + Hours */
+      .info-sec { background: #fff; }
+      .info-grid { margin-top: 3rem; display: grid; gap: 2.5rem; }
+      @media (min-width: 768px) { .info-grid { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+      .info-block h3 { font-size: 1.125rem; font-weight: 600; margin: 0; }
+      .info-block p, .info-block ul { margin: 0.5rem 0 0; font-size: 0.875rem; color: rgba(58, 42, 31, 0.9); }
+      .info-block ul { list-style: none; padding: 0; }
+      .map-card { border-radius: 1rem; background: rgba(58, 42, 31, 0.05); padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; min-height: 280px; text-align: center; }
+      .map-card .btn-secondary { margin: 0; }
+
+      /* CTA */
+      .cta-sec { background: linear-gradient(to bottom right, rgba(182, 138, 58, 0.15), rgba(58, 42, 31, 0.1)); }
+      .cta-sec h2 { margin: 0; font-size: 1.5rem; }
+      @media (min-width: 768px) { .cta-sec h2 { font-size: 1.875rem; } }
+      .cta-btns { margin-top: 2rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+
+      /* Footer */
+      footer {
+        background: var(--espresso);
+        color: var(--offwhite);
+        padding: 3rem 0;
+      }
+      @media (min-width: 768px) { footer { padding: 4rem 0; } }
+      .footer-grid { display: grid; gap: 2rem; }
+      @media (min-width: 768px) { .footer-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+      .footer-grid h3 { font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); margin: 0; }
+      .footer-grid p, .footer-grid a { margin-top: 0.5rem; font-size: 0.875rem; color: rgba(245, 242, 237, 0.9); }
+      .footer-grid a { display: inline-block; text-decoration: underline; text-underline-offset: 2px; }
+      .footer-grid a:hover { color: var(--gold); }
+      .footer-bottom { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(245, 242, 237, 0.2); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
+      .footer-bottom p { margin: 0; font-size: 0.875rem; color: rgba(245, 242, 237, 0.7); }
+      .footer-links { display: flex; gap: 1.5rem; list-style: none; margin: 0; padding: 0; }
+      .footer-links a { color: rgba(245, 242, 237, 0.7); text-decoration: none; font-size: 0.875rem; }
+      .footer-links a:hover { color: var(--offwhite); }
+      .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    </style>
+  </head>
+  <body>
+    <header class="navbar" id="navbar" role="banner" aria-label="Hauptnavigation">
+      <nav class="container">
+        <div class="nav-inner">
+          <a href="#home" class="focus-ring" aria-label="Café Yamu Startseite">
+            <img src="images/logo.jpg" alt="Café Yamu — coffee • eatery • vibes" class="nav-logo" />
+          </a>
+          <ul class="nav-links" role="menubar">
+            <li><a href="#home" role="menuitem">Home</a></li>
+            <li><a href="#fruehstueck" role="menuitem">Frühstück</a></li>
+            <li><a href="#infos" role="menuitem">Infos</a></li>
+            <li><a href="#galerie" role="menuitem">Galerie</a></li>
+            <li><a href="#kontakt" role="menuitem">Kontakt</a></li>
+          </ul>
+          <button type="button" class="nav-toggle focus-ring" id="nav-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menü öffnen oder schließen">
+            <span class="sr-only" id="nav-toggle-label">Menü öffnen</span>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </nav>
+      <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+        <ul role="menubar">
+          <li><a href="#home" role="menuitem">Home</a></li>
+          <li><a href="#fruehstueck" role="menuitem">Frühstück</a></li>
+          <li><a href="#infos" role="menuitem">Infos</a></li>
+          <li><a href="#galerie" role="menuitem">Galerie</a></li>
+          <li><a href="#kontakt" role="menuitem">Kontakt</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <section id="home" class="hero" aria-labelledby="hero-heading">
+        <div class="hero-overlay" aria-hidden="true"></div>
+        <div class="container">
+          <div class="hero-inner">
+            <div class="hero-text">
+              <h1 id="hero-heading">Ausgiebig frühstücken in Köln-Nippes</h1>
+              <p>Großzügige Frühstücksplatten, Eierspezialitäten, Bowls und frischer Kaffee — in gemütlicher Atmosphäre am Wilhelmplatz. coffee • eatery • vibes.</p>
+              <div class="hero-btns">
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Christinastra%C3%9Fe+64%2C+50733+K%C3%B6ln" target="_blank" rel="noopener noreferrer" class="btn-primary focus-ring">Route planen</a>
+                <a href="https://www.instagram.com/cafeyamu/" target="_blank" rel="noopener noreferrer" class="btn-secondary focus-ring">Instagram</a>
+              </div>
+            </div>
+            <div class="hero-img-wrap">
+              <img src="images/cup.png" alt="Café Yamu To-Go Becher" class="hero-img" width="380" height="420" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="fruehstueck" class="breakfast" aria-labelledby="signature-heading">
+        <div class="container">
+          <h2 id="signature-heading" class="section-title">Unser Frühstück</h2>
+          <p class="section-sub">Frische Zutaten, gemütliche Atmosphäre — genau dein Start in den Tag.</p>
+          <div class="cards">
+            <article class="card">
+              <span class="card-icon" aria-hidden="true">🥐</span>
+              <h3>Frühstücksplatten</h3>
+              <p>Großzügige Platten mit Käse, Aufschnitt, Brot, Aufstrichen und frischen Beilagen — auch vegetarisch.</p>
+            </article>
+            <article class="card">
+              <span class="card-icon" aria-hidden="true">🍳</span>
+              <h3>Eierspezialitäten</h3>
+              <p>Avocado-Toast mit pochiertem Ei, Rührei-Variationen und mehr — frisch und lecker.</p>
+            </article>
+            <article class="card">
+              <span class="card-icon" aria-hidden="true">☕</span>
+              <h3>Bowls & Kaffee</h3>
+              <p>Smoothie-Bowls, Pancakes und Kaffeespezialitäten: Espresso, Cappuccino, Flat White.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="galerie" class="gallery-sec" aria-labelledby="gallery-heading">
+        <div class="container">
+          <h2 id="gallery-heading" class="section-title">Galerie</h2>
+          <p class="section-sub">Einblicke in unser Café und unsere Küche.</p>
+          <div class="gallery-grid">
+            <button type="button" class="gallery-item focus-ring" data-lightbox="0" aria-label="Bild öffnen: Schoko-Bombe">
+              <img loading="lazy" src="images/chocobomb.png" alt="Schokoladen-Bombe mit Früchten und Schokosauce" />
+              <div class="overlay">
+                <div>
+                  <div class="caption">Schoko-Bombe</div>
+                  <div class="caption-sub">Dessert mit Früchten</div>
+                </div>
+              </div>
+            </button>
+            <button type="button" class="gallery-item focus-ring" data-lightbox="1" aria-label="Bild öffnen: Getränke">
+              <img loading="lazy" src="images/doubledrink.png" alt="Geschichtete Getränke im Café Yamu" />
+              <div class="overlay">
+                <div>
+                  <div class="caption">Getränke</div>
+                  <div class="caption-sub">Matcha & mehr</div>
+                </div>
+              </div>
+            </button>
+            <button type="button" class="gallery-item focus-ring" data-lightbox="2" aria-label="Bild öffnen: Frühstückstisch">
+              <img loading="lazy" src="images/essen.png" alt="Frühstückstisch mit Platten und Bowls" />
+              <div class="overlay">
+                <div>
+                  <div class="caption">Frühstückstisch</div>
+                  <div class="caption-sub">Platten & Bowls</div>
+                </div>
+              </div>
+            </button>
+            <button type="button" class="gallery-item focus-ring" data-lightbox="3" aria-label="Bild öffnen: Frühstücksplatte">
+              <img loading="lazy" src="images/essen1.png" alt="Große Frühstücksplatte mit Joghurt, Käse und Obst" />
+              <div class="overlay">
+                <div>
+                  <div class="caption">Frühstücksplatte</div>
+                  <div class="caption-sub">Köln — Frisch & vielfältig</div>
+                </div>
+              </div>
+            </button>
+            <button type="button" class="gallery-item focus-ring" data-lightbox="4" aria-label="Bild öffnen: Storefront">
+              <img loading="lazy" src="images/outside.png" alt="Café Yamu Storefront in Köln-Nippes" />
+              <div class="overlay">
+                <div>
+                  <div class="caption">Außenansicht</div>
+                  <div class="caption-sub">Wilhelmplatz — Köln-Nippes</div>
+                </div>
+              </div>
+            </button>
+            <button type="button" class="gallery-item focus-ring" data-lightbox="5" aria-label="Bild öffnen: Logo">
+              <img loading="lazy" src="images/logo.jpg" alt="Café Yamu Logo" />
+              <div class="overlay">
+                <div>
+                  <div class="caption">Unser Logo</div>
+                  <div class="caption-sub">Café Yamu</div>
+                </div>
+              </div>
+            </button>
+            <button type="button" class="gallery-item focus-ring" data-lightbox="6" aria-label="Bild öffnen: To-Go Becher">
+              <img loading="lazy" src="images/cup.png" alt="Café Yamu To-Go Becher" />
+              <div class="overlay">
+                <div>
+                  <div class="caption">To-Go Becher</div>
+                  <div class="caption-sub">Für unterwegs</div>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <div class="lightbox focus-ring" id="lightbox" role="dialog" aria-modal="true" aria-label="Bild vergrößert anzeigen">
+        <div class="lightbox-inner">
+          <button type="button" class="lightbox-nav lightbox-prev focus-ring" id="lightbox-prev" aria-label="Vorheriges Bild">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <img id="lightbox-img" src="" alt="" />
+          <button type="button" class="lightbox-nav lightbox-next focus-ring" id="lightbox-next" aria-label="Nächstes Bild">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <button type="button" class="lightbox-close focus-ring" id="lightbox-close" aria-label="Lightbox schließen">Schließen</button>
+      </div>
+
+      <section id="infos" class="info-sec" aria-labelledby="info-heading">
+        <div class="container">
+          <h2 id="info-heading" class="section-title">Infos & Öffnungszeiten</h2>
+          <div class="info-grid">
+            <div class="info-block">
+              <h3>Öffnungszeiten</h3>
+              <ul aria-label="Öffnungszeiten">
+                <li>Montag–Samstag: 07:30–17:30</li>
+                <li>Sonntag: 09:00–17:30</li>
+              </ul>
+              <h3 style="margin-top: 1.5rem;">Adresse</h3>
+              <p>Christinastraße 64<br />50733 Köln</p>
+              <p>Mitten in Köln-Nippes, am Wilhelmplatz — wir freuen uns auf deinen Besuch.</p>
+              <a href="https://www.google.com/maps/dir/?api=1&destination=Christinastra%C3%9Fe+64%2C+50733+K%C3%B6ln" target="_blank" rel="noopener noreferrer" class="btn-primary focus-ring">Route planen</a>
+            </div>
+            <div class="map-card">
+              <p style="margin:0; color: var(--espresso);">Café Yamu auf der Karte</p>
+              <a href="https://www.google.com/maps/dir/?api=1&destination=Christinastra%C3%9Fe+64%2C+50733+K%C3%B6ln" target="_blank" rel="noopener noreferrer" class="btn-secondary focus-ring">In Google Maps öffnen</a>
+              <p style="margin:0; font-size: 0.875rem; color: rgba(58,42,31,0.6);">Christinastraße 64, 50733 Köln</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-sec" aria-labelledby="cta-heading">
+        <div class="container" style="max-width: 48rem; text-align: center;">
+          <h2 id="cta-heading">Komm vorbei — wir freuen uns auf dich.</h2>
+          <div class="cta-btns">
+            <a href="https://www.google.com/maps/dir/?api=1&destination=Christinastra%C3%9Fe+64%2C+50733+K%C3%B6ln" target="_blank" rel="noopener noreferrer" class="btn-primary focus-ring">Route planen</a>
+            <a href="https://www.instagram.com/cafeyamu/" target="_blank" rel="noopener noreferrer" class="btn-secondary focus-ring">Instagram</a>
+          </div>
+        </div>
+      </section>
+
+      <footer id="kontakt" role="contentinfo" aria-label="Seitenfuß">
+        <div class="container">
+          <div class="footer-grid">
+            <div>
+              <h3>Adresse</h3>
+              <p>Christinastraße 64<br />50733 Köln</p>
+              <a href="https://www.google.com/maps/dir/?api=1&destination=Christinastra%C3%9Fe+64%2C+50733+K%C3%B6ln" target="_blank" rel="noopener noreferrer">Route planen</a>
+            </div>
+            <div>
+              <h3>Öffnungszeiten</h3>
+              <ul style="list-style:none; padding:0;">
+                <li>Montag–Samstag: 07:30–17:30</li>
+                <li>Sonntag: 09:00–17:30</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Folgen</h3>
+              <a href="https://www.instagram.com/cafeyamu/" target="_blank" rel="noopener noreferrer">Instagram</a>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <p>© <span id="year"></span> Café Yamu. Alle Rechte vorbehalten.</p>
+            <nav aria-label="Rechtliche Links">
+              <ul class="footer-links">
+                <li><a href="impressum.html">Impressum</a></li>
+                <li><a href="datenschutz.html">Datenschutz</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      (function() {
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        var navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', function() {
+          navbar.classList.toggle('scrolled', window.scrollY > 24);
+        });
+
+        var toggle = document.getElementById('nav-toggle');
+        var menu = document.getElementById('mobile-menu');
+        var label = document.getElementById('nav-toggle-label');
+        toggle.addEventListener('click', function() {
+          var open = !menu.classList.contains('open');
+          menu.classList.toggle('open', open);
+          toggle.classList.toggle('open', open);
+          toggle.setAttribute('aria-expanded', open);
+          menu.setAttribute('aria-hidden', !open);
+          label.textContent = open ? 'Menü schließen' : 'Menü öffnen';
+        });
+        menu.querySelectorAll('a').forEach(function(a) {
+          a.addEventListener('click', function() {
+            menu.classList.remove('open');
+            toggle.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+            menu.setAttribute('aria-hidden', 'true');
+            label.textContent = 'Menü öffnen';
+          });
+        });
+
+        var lightbox = document.getElementById('lightbox');
+        var lightboxImg = document.getElementById('lightbox-img');
+        var lightboxClose = document.getElementById('lightbox-close');
+        var lightboxPrev = document.getElementById('lightbox-prev');
+        var lightboxNext = document.getElementById('lightbox-next');
+        var sources = [
+          { src: 'images/chocobomb.png', alt: 'Schokoladen-Bombe mit Früchten und Schokosauce' },
+          { src: 'images/doubledrink.png', alt: 'Geschichtete Getränke im Café Yamu' },
+          { src: 'images/essen.png', alt: 'Frühstückstisch mit Platten und Bowls' },
+          { src: 'images/essen1.png', alt: 'Große Frühstücksplatte mit Joghurt, Käse und Obst' },
+          { src: 'images/outside.png', alt: 'Café Yamu Storefront in Köln-Nippes' },
+          { src: 'images/logo.jpg', alt: 'Café Yamu Logo' },
+          { src: 'images/cup.png', alt: 'Café Yamu To-Go Becher' }
+        ];
+        var current = 0;
+
+        function openLightbox(i) {
+          current = (i + sources.length) % sources.length;
+          lightboxImg.src = sources[current].src;
+          lightboxImg.alt = sources[current].alt;
+          lightbox.classList.add('open');
+          lightboxClose.focus();
+        }
+
+        function closeLightbox() {
+          lightbox.classList.remove('open');
+          // clear src to release memory on mobile
+          setTimeout(function() { lightboxImg.src = ''; }, 300);
+        }
+
+        function showNext() { openLightbox((current + 1) % sources.length); }
+        function showPrev() { openLightbox((current - 1 + sources.length) % sources.length); }
+
+        document.querySelectorAll('[data-lightbox]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var i = parseInt(btn.getAttribute('data-lightbox'), 10);
+            openLightbox(i);
+          });
+        });
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxPrev.addEventListener('click', function(e) { e.stopPropagation(); showPrev(); });
+        lightboxNext.addEventListener('click', function(e) { e.stopPropagation(); showNext(); });
+
+        lightbox.addEventListener('click', function(e) {
+          if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener('keydown', function(e) {
+          if (!lightbox.classList.contains('open')) return;
+          if (e.key === 'Escape') closeLightbox();
+          if (e.key === 'ArrowRight') showNext();
+          if (e.key === 'ArrowLeft') showPrev();
+        });
+      })();
+    </script>
+  </body>
+</html>
