@@ -109,9 +109,9 @@
       /* ensure hero content sits above the overlay */
       .hero-inner { position: relative; z-index: 10; }
       @media (min-width: 768px) { .hero { min-height: 85vh; padding-top: 6rem; display: flex; align-items: center; } }
-  .hero-inner { display: flex; flex-direction: column; align-items: center; gap: 3rem; }
+  .hero-inner { display: flex; flex-direction: column; align-items: flex-start; gap: 3rem; }
       @media (min-width: 768px) { .hero-inner { flex-direction: row; gap: 4rem; } }
-      .hero-text { flex: 1; text-align: center; }
+      .hero-text { flex: 1; text-align: left; }
       @media (min-width: 768px) { .hero-text { text-align: left; } }
       .hero h1 { font-size: 1.875rem; font-weight: 700; margin: 0; line-height: 1.2; color: #fff; }
       @media (min-width: 640px) { .hero h1 { font-size: 2.25rem; } }
@@ -119,7 +119,7 @@
       @media (min-width: 1024px) { .hero h1 { font-size: 2.75rem; } }
       .hero p { margin-top: 1rem; max-width: 32rem; font-size: 1.125rem; color: #fff; }
       @media (min-width: 768px) { .hero p { margin-top: 1.5rem; } }
-      .hero-btns { margin-top: 2rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+      .hero-btns { margin-top: 2rem; display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 0.75rem; }
       @media (min-width: 768px) { .hero-btns { justify-content: flex-start; margin-top: 2.5rem; } }
       .btn-primary { display: inline-flex; align-items: center; padding: 0.75rem 1.5rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 600; color: #fff; background: var(--gold); box-shadow: var(--shadow-soft); text-decoration: none; transition: background 0.2s, box-shadow 0.2s; }
       .btn-primary:hover { background: var(--gold-dark); box-shadow: var(--shadow-lift); }
