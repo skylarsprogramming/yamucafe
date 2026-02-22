@@ -6,7 +6,7 @@ const CARDS = [
   {
     title: "Frühstücksplatten",
     description: "Großzügige Platten mit Käse, Aufschnitt, Brot, Aufstrichen und frischen Beilagen — auch vegetarisch.",
-    icon: "🥐",
+    icon: "🍰",
   },
   {
     title: "Eierspezialitäten",
