@@ -38,7 +38,7 @@ export default function Navbar() {
           aria-label="Café Yamu Startseite"
         >
           <Image
-            src="/images/logo.jpg"
+            src="/images/logo.png"
             alt="Café Yamu — coffee • eatery • vibes"
             width={140}
             height={48}

@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const GALLERY_ITEMS = [
   { src: "/images/essen.png", alt: "Frühstückstisch mit Platten und Bowls", size: "tall" as const },
   { src: "/images/outside.png", alt: "Café Yamu Storefront in Köln-Nippes", size: "wide" as const },
-  { src: "/images/logo.jpg", alt: "Café Yamu Logo", size: "small" as const },
+  { src: "/images/logo.png", alt: "Yamu Logo", size: "small" as const },
   { src: "/images/cup.png", alt: "Café Yamu To-Go Becher", size: "small" as const },
 ];
 

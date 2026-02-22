@@ -24,7 +24,7 @@ Images are in `public/images/`:
 
 - `cup.png` — hero to-go cup
 - `essen.png` — breakfast / food
-- `logo.jpg` — YAMU logo (navbar, gallery)
+- `logo.png` — YAMU logo (navbar, gallery)
 - `outside.png` — storefront
 
 Replace or add `og.jpg` in `public/images/` if you want a dedicated Open Graph image.
